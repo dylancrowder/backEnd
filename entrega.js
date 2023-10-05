@@ -1,58 +1,112 @@
+import { log } from "console";
+import * as fs from "fs/promises";
+
 class ProductManager {
   constructor() {
+    this.path = "./productos.txt";
     this.products = [];
   }
-  static id = 0; // Declaración de una propiedad estática para llevar un registro de IDs únicos.
+  static id = 0;
 
-  addProduct(title, description, price, thumbnail, code, stock) {
-    // Validar si todos los campos obligatorios están presentes
+  // Método para agregar un producto
+  addProduct = async (title, description, price, thumbnail, code, stock) => {
     if (!title || !description || !price || !thumbnail || !code || !stock) {
       console.log("Todos los campos son obligatorios");
       return;
     }
 
-    // Validar si el código ya existe en la lista de productos
     if (this.products.some((product) => product.code === code)) {
       console.log(`El producto con código ${code} ya existe.`);
       return;
     }
 
-    ProductManager.id++; // Incrementar el ID único del producto.
-    this.products.push({
+    // Incrementa el ID del producto
+    ProductManager.id++;
+
+    // Crea el nuevo producto
+    let nuevoProducto = {
       title,
       description,
       price,
       thumbnail,
       code,
       stock,
-      id: ProductManager.id, // Asignar el ID único al producto.
-    });
+      id: ProductManager.id,
+    };
 
-    console.log("Producto agregado exitosamente.");
-  }
+    // Agrego el producto al array de productos
+    this.products.push(nuevoProducto);
+    // Escribo los productos en el archivo
+    await fs.writeFile(this.path, JSON.stringify(this.products));
+  };
 
-  getProducts() {
-    return this.products;
-  }
+  // Método para leer los productos del archivo
+  readProductos = async () => {
+    let respuesta = await fs.readFile(this.path, "utf-8");
+    return JSON.parse(respuesta);
+  };
 
-  exists(id) {
-    return this.products.find((product) => product.id === id);
-  }
+  // Método para obtener todos los productos
+  getProducts = async () => {
+    let respuesta2 = await this.readProductos();
+    console.log(respuesta2);
+  };
 
-  getProductById(id) {
-    const product = this.exists(id);
+  deleteProducts = async (id) => {
+    let respuesta3 = await this.readProductos();
+
+    // Filtrar el producto con el id proporcionado
+    let productoFiltrado = respuesta3.filter((product) => product.id != id);
+
+    this.products = productoFiltrado;
+    await fs.writeFile(this.path, JSON.stringify(this.products));
+    console.log(`Producto con id ${id} eliminado.`);
+  };
+
+  // Método para obtener un producto por su código
+  getProductByCode = async (code) => {
+    const product = this.products.find((product) => product.code === code);
     if (!product) {
       console.log("El producto no existe.");
     } else {
       console.log(product);
     }
-  }
+  };
+
+  // Método para obtener un producto por su ID
+  getProductById = async (id) => {
+    const product = this.products.find((product) => product.id === id);
+    if (!product) {
+      console.log("El producto no existe.");
+    } else {
+      console.log(product);
+    }
+  };
 }
 
-const productos = new ProductManager(); // Crear una instancia de la clase ProductManager.
+(async () => {
+  const productos = new ProductManager();
 
-productos.addProduct("nike", "nuevas zapatillas", 100, "nke1", 1234, 10); // Agregar un producto.
-productos.addProduct("adidas", "otras zapatillas", 23, "adi1", 134, 15); // Agregar otro producto.
+  await productos.addProduct(
+    "nike",
+    "nuevas zapatillas",
+    100,
+    "nke1",
+    1234,
+    10
+  );
 
-console.log(productos.getProducts()); // Mostrar la lista de productos.
-productos.getProductById(2); // Intentar obtener un producto por su ID (este ID no existe).
+  await productos.addProduct("adidas", "otras zapatillas", 23, "adi1", 134, 15);
+  await productos.addProduct(
+    "VANS",
+    "otras zapatillass",
+    21,
+    "adi1",
+    1341,
+    151
+  );
+  await productos.getProducts();
+  await productos.deleteProducts(2);
+  await productos.getProductByCode(1234);
+  await productos.getProductById(2);
+})();

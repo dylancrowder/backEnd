@@ -1,0 +1,1 @@
+[{"title":"nike","description":"nuevas zapatillas","price":100,"thumbnail":"nke1","code":1234,"stock":10,"id":1},{"title":"VANS","description":"otras zapatillass","price":21,"thumbnail":"adi1","code":1341,"stock":151,"id":3}]
