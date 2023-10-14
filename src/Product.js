@@ -86,18 +86,22 @@ export default ProductManager;
 
 const productos = new ProductManager();
 
-productos.addProduct("puma", "asas", 100, 121, 121, 12, 12);
+productos.addProduct("puma", "azules", 120, 121, 121, 14, 422);
 
-productos.addProduct("puma", "asas", 100, 121, 121, 12, 12);
+productos.addProduct("nike", "blancas", 130, 121, 121, 122, 712);
 
-productos.addProduct("puma", "asas", 100, 121, 121, 12, 12);
+productos.addProduct("vans", "grises", 140, 121, 121, 112, 412);
 
-productos.addProduct("puma", "asas", 100, 121, 121, 12, 12);
+productos.addProduct("rebook", "moradas", 150, 121, 111, 12, 642);
 
-productos.addProduct("puma", "asas", 100, 121, 121, 12, 12);
+productos.addProduct("converse", "rosa", 160, 121, 141, 12, 712);
 
-productos.addProduct("puma", "asas", 100, 121, 121, 12, 12);
+productos.addProduct("cariuma", "negras", 170, 121, 16, 12, 62);
 
-productos.addProduct("puma", "asas", 100, 121, 121, 12, 12);
+productos.addProduct("puma", "marron", 180, 121, 121, 72, 512);
 
-productos.addProduct("puma", "asas", 100, 121, 121, 12, 12);
+productos.addProduct("puma", "celeste", 290, 121, 121, 82, 412);
+
+productos.addProduct("adidas", "marron", 380, 121, 121, 72, 312);
+
+productos.addProduct("vas", "celeste", 490, 121, 121, 512, 112);
